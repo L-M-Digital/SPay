@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: django-app
+    namespace: tcc
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            app: django-app
+    template:
+        metadata:
+            labels:
+                app: django-app
+        spec:
+            containers:
+                - name: django-container
+                  image: ghcr.io/l-m-digital/spay:latest
+                  ports:
+                      - containerPort: 8000
