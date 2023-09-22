@@ -5,7 +5,7 @@ metadata:
     namespace: tcc
 spec:
     selector:
-        app: django-app
+        app: payment-app
     ports:
         - protocol: TCP
           port: 80

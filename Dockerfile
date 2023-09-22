@@ -10,5 +10,4 @@ COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY . /code/
 RUN chmod +rx entrypoint.sh
-ENTRYPOINT ["/code/entrypoint.sh"]
-CMD [ "python", "manage.py", "runserver", "--port", "8000" ]
+CMD [ "python", "manage.py", "runserver",  "8000" ]

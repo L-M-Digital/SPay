@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: django-app
+    name: payment-app
     namespace: tcc
 spec:
-    replicas: 2
+    replicas: 1
     selector:
         matchLabels:
-            app: django-app
+            app: payment-app
     template:
         metadata:
             labels:
-                app: django-app
+                app: payment-app
         spec:
             containers:
                 - name: django-container
