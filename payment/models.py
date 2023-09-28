@@ -34,7 +34,11 @@ class Payment(models.Model):
 
     @cached_property
     def status(self):
-        return self.payment_status.last().name
+        return (
+            self.payment_status.last().name
+            if self.payment_status.last()
+            else "No status"
+        )
 
     class Meta:
         ordering = ["-updated_at"]

@@ -15,7 +15,7 @@ spec:
         spec:
             containers:
                 - name: postgres
-                  image: postgres:14
+                  image: postgres:15.4
                   env:
                       - name: POSTGRES_DB
                         value: your_database_name

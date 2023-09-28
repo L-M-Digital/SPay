@@ -15,6 +15,13 @@ spec:
         spec:
             containers:
                 - name: django-container
-                  image: ghcr.io/l-m-digital/spay:latest
-                  ports:
-                      - containerPort: 8000
+                    image: ghcr.io/l-m-digital/spay
+                    env:
+                        - name: POSTGRES_DB
+                            value: your_database_name
+                        - name: POSTGRES_USER
+                            value: your_database_user
+                        - name: POSTGRES_PASSWORD
+                            value: your_database_password
+                    ports:
+                        - containerPort: 8000

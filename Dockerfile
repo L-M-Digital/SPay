@@ -5,9 +5,8 @@ RUN apt update -y
 RUN apt install -y wget \
     build-essential \
     libc6-dev
-WORKDIR /code
-COPY requirements.txt /code/
+WORKDIR /app
+COPY requirements.txt /app/
 RUN pip install -r requirements.txt
-COPY . /code/
+COPY . /app/
 RUN chmod +rx entrypoint.sh
-CMD [ "python", "manage.py", "runserver",  "8000" ]
