@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: payment-app
+    namespace: tcc
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: payment-app
+    template:
+        metadata:
+            labels:
+                app: payment-app
+        spec:
+            containers:
+                - name: django-container
+                    image: ghcr.io/l-m-digital/spay
+                    env:
+                        - name: POSTGRES_DB
+                            value: your_database_name
+                        - name: POSTGRES_USER
+                            value: your_database_user
+                        - name: POSTGRES_PASSWORD
+                            value: your_database_password
+                    ports:
+                        - containerPort: 8000

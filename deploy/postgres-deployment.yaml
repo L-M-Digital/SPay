@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: postgres-deployment
+    namespace: tcc
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: postgres
+    template:
+        metadata:
+            labels:
+                app: postgres
+        spec:
+            containers:
+                - name: postgres
+                  image: postgres:15.4
+                  env:
+                      - name: POSTGRES_DB
+                        value: your_database_name
+                      - name: POSTGRES_USER
+                        value: your_database_user
+                      - name: POSTGRES_PASSWORD
+                        value: your_database_password
+                  ports:
+                      - containerPort: 5432
