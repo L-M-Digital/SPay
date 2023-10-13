@@ -2,9 +2,13 @@ name: Testes
 
 on:
     push:
-        branches: [main, dev]
+        branches:
+            - main
+            - dev
     pull_request:
-        branches: [main, dev]
+        branches:
+            - main
+            - dev
 
 jobs:
     test:
@@ -32,10 +36,10 @@ jobs:
             - name: Wait for Django to start
                 run: docker-compose exec payment_base_app sh -c "while ! nc -z db 5432; do sleep 1; done;"
                 working-directory: ./path/to/your/docker-compose/directory
+                timeout-minutes: 5
             - name: Run pytest tests
                 run: docker-compose exec payment_base_app pytest
                 working-directory: ./path/to/your/docker-compose/directory
             - name: Stop Docker container
                 run: docker-compose down
                 working-directory: ./path/to/your/docker-compose/directory
-
