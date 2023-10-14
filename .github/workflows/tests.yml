@@ -22,7 +22,7 @@ jobs:
               working-directory: .
 
             - name: Run pytest tests
-              run: docker-compose exec payment_base_app pytest
+              run: docker-compose exec -T payment_base_app pytest
               working-directory: .
 
             - name: Stop Docker container
