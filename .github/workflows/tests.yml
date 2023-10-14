@@ -21,11 +21,6 @@ jobs:
               run: docker-compose up -d
               working-directory: .
 
-            - name: Wait for Django to start
-              run: docker-compose exec payment_base_app sh -c "while ! nc -z db 5432; do sleep 1; done;"
-              working-directory: .
-              timeout-minutes: 5
-
             - name: Run pytest tests
               run: docker-compose exec payment_base_app pytest
               working-directory: .
