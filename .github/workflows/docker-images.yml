@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+    push:
+        tags:
+            - "*"
+
+jobs:
+    build-and-push:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Set up Docker
+              run: |
+                  docker build -t ghcr.io/l-m-digital/spay:latest .
+                  docker tag ghcr.io/l-m-digital/spay:latest ghcr.io/l-m-digital/spay:${{ github.ref }}
+              env:
+                  DOCKER_CLI_ACI: 1
+
+            - name: Login to GitHub Container Registry
+              run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            - name: Push Docker images
+              run: |
+                  docker push ghcr.io/l-m-digital/spay:latest
+                  docker push ghcr.io/l-m-digital/spay:${{ github.ref }}
