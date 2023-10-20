@@ -1,1 +1,1 @@
-# CPayments
+# SPayments
