@@ -17,9 +17,9 @@ class PaymentCreateView(generics.CreateAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
 
-    def create(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         logger.info(f"Request data: {request.data}")
-        response = super().create(request, *args, **kwargs)
+        response = super().post(request, *args, **kwargs)
         logger.info(f"Response data: {response.data}")
         return response
 
@@ -34,8 +34,8 @@ class PaymentListView(generics.ListAPIView):
     filter_backends = [filters.SearchFilter]
     search_fields = ["id", "amount", "status", "store", "created_at"]
 
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         logger.info(f"Request data: {request.data}")
-        response = super().list(request, *args, **kwargs)
+        response = super().get(request, *args, **kwargs)
         logger.info(f"Response data: {response.data}")
         return response
