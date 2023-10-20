@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "django_extensions",
     "drf_yasg",
     "debug_toolbar",
+    "oauth2_provider",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -54,6 +56,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "Spay.urls"
@@ -166,3 +169,16 @@ if DEBUG:
         "127.0.0.1",
         "10.0.2.2",
     ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+}
+
+LOGIN_URL = "/admin/login/"
+LOGIN_REDIRECT_URL = "/admin/login/"
+LOGOUT_REDIRECT_URL = "/admin/login/"
+
+CORS_ORIGIN_ALLOW_ALL = True
