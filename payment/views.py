@@ -3,6 +3,7 @@ from django.shortcuts import render
 from payment.models import Payment
 from rest_framework import generics, status, filters
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from payment.serializer import PaymentSerializer
 
 
@@ -16,6 +17,7 @@ class PaymentCreateView(generics.CreateAPIView):
 
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         logger.info(f"Request data: {request.data}")
