@@ -13,10 +13,14 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v2
 
+            - name: Get the version
+              id: get_version
+              run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
             - name: Set up Docker
               run: |
                   docker build -t ghcr.io/l-m-digital/spay:latest .
-                  docker tag ghcr.io/l-m-digital/spay:latest ghcr.io/l-m-digital/spay:${{ github.ref }}
+                  docker tag ghcr.io/l-m-digital/spay:latest ghcr.io/l-m-digital/spay:${{ steps.get_version.outputs.VERSION }}
               env:
                   DOCKER_CLI_ACI: 1
 
@@ -26,4 +30,4 @@ jobs:
             - name: Push Docker images
               run: |
                   docker push ghcr.io/l-m-digital/spay:latest
-                  docker push ghcr.io/l-m-digital/spay:${{ github.ref }}
+                  docker push ghcr.io/l-m-digital/spay:${{ steps.get_version.outputs.VERSION }}
