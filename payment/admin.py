@@ -4,7 +4,6 @@ from payment.models import (
     Payment,
     PaymentStatus,
     Store,
-    User,
     Partner,
     Director,
     Accountant,
@@ -54,7 +53,6 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(Payment, PaymentAdmin)
 admin.site.register(Store, StoreAdmin)
 admin.site.register(PaymentStatus)
-admin.site.register(User, UserAdmin)
 admin.site.register(Partner)
 admin.site.register(Director)
 admin.site.register(Accountant)
