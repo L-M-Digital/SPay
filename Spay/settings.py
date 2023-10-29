@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "oauth2_provider",
     "corsheaders",
+    "multifactor",
 ]
 
 MIDDLEWARE = [
@@ -162,6 +163,17 @@ LOGGING = {
     },
 }
 
+MULTIFACTOR = {
+    "LOGIN_CALLBACK": False,  # False, or dotted import path to function to process after successful authentication
+    "RECHECK": True,  # Invalidate previous authorisations at random intervals
+    "RECHECK_MIN": 60 * 20,  # No rechecks before 20 minutes
+    "RECHECK_MAX": 60 * 30,  # But within 30 minutes
+    "FACTORS": ["TOTP"],  # List of factors to use
+    "TOKEN_ISSUER_NAME": "Django App",  # TOTP token issuing name (to be shown in authenticator)
+    # Optional Keys - Only include these keys if you wish to deviate from the default actions
+    "LOGIN_MESSAGE": '<a href="{}">Manage multifactor settings</a>.',  # {OPTIONAL} When set overloads the default post-login message.
+    "SHOW_LOGIN_MESSAGE": False,  # {OPTIONAL} <bool> Set to False to not create a post-login message
+}
 
 if DEBUG:
     import socket  # only if you haven't already imported this
