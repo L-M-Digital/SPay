@@ -5,6 +5,9 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from django.conf import settings
 from django.conf.urls.static import static
+from decorator_include import decorator_include
+from multifactor.decorators import multifactor_protected
+
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -20,7 +23,10 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("admin/multifactor/", include("multifactor.urls")),
+    path(
+        "admin/", decorator_include(multifactor_protected(factors=1), admin.site.urls)
+    ),
     path("", include("payment.urls")),
     path(
         "swagger/",
