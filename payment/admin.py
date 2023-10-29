@@ -1,6 +1,13 @@
 from django.contrib import admin
 from django.http.request import HttpRequest
-from payment.models import Payment, PaymentStatus, Store
+from payment.models import (
+    Payment,
+    PaymentStatus,
+    Store,
+    Partner,
+    Director,
+    Accountant,
+)
 
 
 class PaymentStatusInline(admin.TabularInline):
@@ -22,7 +29,31 @@ class StoreAdmin(admin.ModelAdmin):
     search_fields = ("id", "name", "fiscal_identification", "phone", "email", "address")
 
 
+class UserAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "is_staff",
+        "is_active",
+    )
+    search_fields = (
+        "id",
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "is_staff",
+        "is_active",
+    )
+
+
 admin.site.register(Payment, PaymentAdmin)
 admin.site.register(Store, StoreAdmin)
 admin.site.register(PaymentStatus)
+admin.site.register(Partner)
+admin.site.register(Director)
+admin.site.register(Accountant)
 # Register your models here.

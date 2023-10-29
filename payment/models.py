@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.utils.functional import cached_property
+from django.contrib.auth.models import User
 
 
 class Store(models.Model):
@@ -67,3 +68,46 @@ class PaymentStatus(models.Model):
         db_table = "payment_status"
         verbose_name = "Status do pagamento"
         verbose_name_plural = "Status dos pagamentos"
+
+
+class Partner(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    all_stores = models.BooleanField(default=False)
+
+    def __str__(self):
+        return (
+            f"{self.user.username} - {self.user.email} - Partner of {self.store.name}"
+        )
+
+    class Meta:
+        verbose_name = "Socio"
+        verbose_name_plural = "Socios"
+
+
+class Director(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    all_stores = models.BooleanField(default=False)
+
+    def __str__(self):
+        return (
+            f"{self.user.username} - {self.user.email} - Director of {self.store.name}"
+        )
+
+    class Meta:
+        verbose_name = "Diretor"
+        verbose_name_plural = "Diretores"
+
+
+class Accountant(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    all_stores = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.user.email} - Accountant of {self.store.name}"
+
+    class Meta:
+        verbose_name = "Contador"
+        verbose_name_plural = "Contadores"

@@ -2,6 +2,7 @@ import logging
 import pytest
 from django.urls import reverse
 from django.contrib.auth.models import User
+from payment.models import Partner
 from rest_framework import status
 from rest_framework.test import APIClient
 from payment.models import Payment, Store
@@ -11,9 +12,20 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.fixture
-def authenticated_api_client():
+def authenticated_partner_api_client():
     client = APIClient()
     user = User.objects.create_user(username="testuser", password="testpass")
+    Partner.objects.create(
+        user=user,
+        all_stores=True,
+        store=Store.objects.create(
+            name="My Store",
+            fiscal_identification="1234567890",
+            phone="123-456-7890",
+            email="test@email.com",
+            address="123 Main St",
+        ),
+    )
     client.force_authenticate(user=user)
     return client
 
@@ -21,13 +33,19 @@ def authenticated_api_client():
 @pytest.fixture
 def create_store():
     def _create_store(**kwargs):
-        return Store.objects.create(**kwargs)
+        return Store.objects.create(
+            name="My Store",
+            fiscal_identification="1234567890",
+            phone="123-456-7890",
+            email="test@email.com",
+            address="123 Main St",
+        )
 
     return _create_store
 
 
 @pytest.mark.django_db
-def test_payment_create_view(authenticated_api_client, create_store):
+def test_payment_create_view(authenticated_partner_api_client, create_store):
     url = reverse("payment:payment-create")
     store = create_store(
         name="My Store",
@@ -44,7 +62,7 @@ def test_payment_create_view(authenticated_api_client, create_store):
         "card_number": "1234-5678-9012-3456",
     }
 
-    response = authenticated_api_client.post(url, data, format="json")
+    response = authenticated_partner_api_client.post(url, data, format="json")
 
     print(response.__dict__)
 
@@ -57,10 +75,10 @@ def test_payment_create_view(authenticated_api_client, create_store):
 
 
 @pytest.mark.django_db
-def test_payment_list_view(authenticated_api_client):
+def test_payment_list_view(authenticated_partner_api_client):
     url = reverse("payment:payment-list")
 
-    response = authenticated_api_client.get(url)
+    response = authenticated_partner_api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
 
