@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -47,7 +48,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "oauth2_provider",
     "corsheaders",
-    "multifactor",
+    # "multifactor",
 ]
 
 MIDDLEWARE = [
@@ -67,7 +68,7 @@ ROOT_URLCONF = "Spay.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR.joinpath("front_end/templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -133,6 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "front_end/static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -163,17 +165,16 @@ LOGGING = {
     },
 }
 
-MULTIFACTOR = {
-    "LOGIN_CALLBACK": False,  # False, or dotted import path to function to process after successful authentication
-    "RECHECK": True,  # Invalidate previous authorisations at random intervals
-    "RECHECK_MIN": 60 * 20,  # No rechecks before 20 minutes
-    "RECHECK_MAX": 60 * 30,  # But within 30 minutes
-    "FACTORS": ["TOTP"],  # List of factors to use
-    "TOKEN_ISSUER_NAME": "Django App",  # TOTP token issuing name (to be shown in authenticator)
-    # Optional Keys - Only include these keys if you wish to deviate from the default actions
-    "LOGIN_MESSAGE": '<a href="{}">Manage multifactor settings</a>.',  # {OPTIONAL} When set overloads the default post-login message.
-    "SHOW_LOGIN_MESSAGE": False,  # {OPTIONAL} <bool> Set to False to not create a post-login message
-}
+# MULTIFACTOR = {
+#     "LOGIN_CALLBACK": True,
+#     "RECHECK": True,
+#     "RECHECK_MIN": 60 * 20,
+#     "RECHECK_MAX": 60 * 30,
+#     "FACTORS": ["TOTP"],
+#     "TOKEN_ISSUER_NAME": "Django App",
+#     "LOGIN_MESSAGE": '<a href="{}">Manage multifactor settings</a>.',
+#     "SHOW_LOGIN_MESSAGE": False,
+# }
 
 if DEBUG:
     import socket  # only if you haven't already imported this
@@ -187,9 +188,11 @@ if DEBUG:
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+        "rest_framework.authentication.TokenAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
+
 
 LOGIN_URL = "/admin/login/"
 LOGIN_REDIRECT_URL = "/admin/login/"

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lista de Pagamentos</title>
+    </head>
+    <body>
+        <h1>Lista de Pagamentos</h1>
+
+        <ul>
+            {% for payment in payment_list %}
+            <li>{{ payment }}</li>
+            {% endfor %}
+        </ul>
+
+        <a href="/logout/">Sair</a>
+    </body>
+</html>
