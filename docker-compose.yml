@@ -11,6 +11,8 @@ services:
             - sPay_network
         ports:
             - "8000:8000"
+        env_file:
+            - ./.env
         volumes:
             - .:/app
             - ./logs/backend:/app/logs
@@ -22,11 +24,9 @@ services:
 
     postgres_db:
         image: postgres:15.3-alpine
-        ports:
-            - "5432:5432"
         volumes:
             - postgres_data:/var/lib/postgresql/data/
-            - ./logs/postgres:/var/log/postgresql/
+            - ./logs/postgres/:/var/log/postgresql/
         command:
             [
                 "postgres",
@@ -39,12 +39,25 @@ services:
                 "-c",
                 "log_filename=postgresql.log",
             ]
-        environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
-            - POSTGRES_DB=postgres
+        env_file:
+            - ./.env
         networks:
             - sPay_network
+
+    nginx:
+        image: nginx:latest
+        restart: always
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx:/etc/nginx/certs
+        depends_on:
+            - payment_base_app
+        networks:
+            - sPay_network
+
 volumes:
     postgres_data:
 

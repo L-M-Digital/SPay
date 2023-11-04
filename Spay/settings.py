@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +26,7 @@ SECRET_KEY = "django-insecure-i%esan1=8jfr=veprsf2591axq2u%h4d(*j#a5=h!$kctc#t4(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "localhost",
-]
+ALLOWED_HOSTS = ["localhost", "spayapp.ddns.net"]
 
 
 # Application definition
@@ -89,13 +88,31 @@ WSGI_APPLICATION = "Spay.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
         "HOST": "postgres_db",
-        "PORT": "5432",
+        "PORT": os.getenv("DB_PORT"),
     }
 }
+
+# Password validation
+# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
+]
 
 
 # Password validation
@@ -151,7 +168,7 @@ LOGGING = {
     },
     "formatters": {
         "verbose": {
-            "format": "%(asctime)s %(levelname)s %(module)s %(process)d %(thread)d %(message)s"
+            "format": "%(asctime)s %(levelname)s %(module)s %(process)d %(thread)d %(user)s %(message)s"
         },
     },
     "loggers": {
@@ -196,3 +213,7 @@ LOGIN_REDIRECT_URL = "/admin/login/"
 LOGOUT_REDIRECT_URL = "/admin/login/"
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://spayapp.ddns.net",
+]
