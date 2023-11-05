@@ -17,6 +17,9 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v2
 
+            - name: Create .env file
+              run: echo "${{ secrets.TESTS_ENV_FILE }}" > .env
+
             - name: Build and run Docker container
               run: docker-compose up -d
               working-directory: .
