@@ -1,0 +1,56 @@
+<!-- logs_app/templates/admin/logs_app/logs_view.html -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Logs</title>
+        <!-- Adicione os links para o Bootstrap aqui -->
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy3t9REO9bsO8L+Jo/GpXr0I9MoM1d47J" crossorigin="anonymous"> -->
+        <style>
+            .log-entry {
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 5px;
+            }
+
+            .info-bg {
+                background-color: #d9edf7;
+            }
+
+            .warning-bg {
+                background-color: #fcf8e3;
+            }
+
+            .error-bg {
+                background-color: #f2dede;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container mt-4">
+            <h1 class="mb-4">Logs</h1>
+            {% if logs %}
+            <div class="list-group">
+                {% for log in logs %}
+                <div class="list-group-item">
+                    <div
+                        class="log-entry {% if 'ERROR' in log.content %} error-bg {% elif 'WARNING' in log.content %} warning-bg {% else %} info-bg {% endif %}"
+                    >
+                        <h4 class="mb-3">{{ log.filename }}</h4>
+                        <pre>{{ log.content|linebreaksbr }}</pre>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted">Nenhum log disponível.</p>
+            {% endif %}
+        </div>
+
+        <!-- Adicione os scripts do Bootstrap aqui se necessário -->
+        <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUc6rg/nRE9sN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-9aSxxJyieMqFETzYHq8DFw1uMqAaKfODbxvCnEpBGoCPrpW6ztKw9R5SHh4b9Kfs" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy3t9REO9bsO8L+Jo/GpXr0I9MoM1d47J" crossorigin="anonymous"></script> -->
+    </body>
+</html>

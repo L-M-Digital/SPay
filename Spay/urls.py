@@ -7,7 +7,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from decorator_include import decorator_include
 from multifactor.decorators import multifactor_protected
-
+from audit_module.urls import urlpatterns as audit_module_urls
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -24,6 +24,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/multifactor/", include("multifactor.urls")),
+    path(
+        "admin/logs_page/",
+        decorator_include(multifactor_protected(factors=1), audit_module_urls),
+        name="logs_view",
+    ),
     path(
         "admin/", decorator_include(multifactor_protected(factors=1), admin.site.urls)
     ),
