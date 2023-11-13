@@ -111,3 +111,18 @@ class Accountant(models.Model):
     class Meta:
         verbose_name = "Contador"
         verbose_name_plural = "Contadores"
+
+
+class Auditor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    all_stores = models.BooleanField(default=False)
+
+    def __str__(self):
+        return (
+            f"{self.user.username} - {self.user.email} - Director of {self.store.name}"
+        )
+
+    class Meta:
+        verbose_name = "Auditor"
+        verbose_name_plural = "Auditores"
