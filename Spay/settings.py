@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "oauth2_provider",
     "corsheaders",
     "multifactor",
+    "audit_module",
 ]
 
 MIDDLEWARE = [
@@ -168,7 +169,7 @@ LOGGING = {
     },
     "formatters": {
         "verbose": {
-            "format": "%(asctime)s %(levelname)s %(module)s %(process)d %(thread)d %(user)s %(message)s"
+            "format": "%(asctime)s %(levelname)s %(module)s %(process)d %(thread)d %(message)s"
         },
     },
     "loggers": {
